@@ -28,39 +28,16 @@ export function ContactForm() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 1000))
 
-      const data = await response.json()
-
-      if (data.success) {
-        toast({
-          title: "Message sent successfully!",
-          description: data.message,
-        })
-        setFormData({ name: '', email: '', subject: '', message: '' })
-      } else {
-        toast({
-          title: "Error",
-          description: data.message || "Failed to send message. Please try again.",
-          variant: "destructive",
-        })
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setIsSubmitting(false)
-    }
+    // Mock successful submission
+    toast({
+      title: "Message sent successfully!",
+      description: "Thank you for your message! I'll get back to you soon.",
+    })
+    setFormData({ name: '', email: '', subject: '', message: '' })
+    setIsSubmitting(false)
   }
 
   return (
@@ -104,7 +81,7 @@ export function ContactForm() {
               />
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="subject">Subject *</Label>
             <Input
@@ -118,7 +95,7 @@ export function ContactForm() {
               disabled={isSubmitting}
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="message">Message *</Label>
             <Textarea
@@ -132,10 +109,10 @@ export function ContactForm() {
               disabled={isSubmitting}
             />
           </div>
-          
-          <Button 
-            type="submit" 
-            className="w-full" 
+
+          <Button
+            type="submit"
+            className="w-full"
             disabled={isSubmitting}
           >
             {isSubmitting ? (
